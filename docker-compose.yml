@@ -1,0 +1,25 @@
+version: "2"
+
+services:
+
+  php-worker:
+    image: ryanover/consumer-php-worker
+    restart: always
+    cpu_quota: 40000
+    mem_limit: 3g
+    environment:
+      - APP_NAME=Consumer
+      - APP_SECRET=7d791a8a45f5d5e7be46a07874e94270
+      - APP_ENV=production
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_LOGIN=guest
+      - RABBITMQ_PASSWORD=guest
+      - MAILER_URL=gmail://username:password@localhost
+    links:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3.7.8-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
